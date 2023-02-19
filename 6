@@ -1,45 +1,45 @@
 #include <iostream>
 #include <queue>
 using namespace std;
-void func(int n, int a[100][100], int start, int dist[], int parent[])
+void func(int n, int a[100][100], int f, int destiny[], int firstEl[])
 {
     queue<int> q;
-    q.push(start);
-    dist[start] = 0;
-    parent[start] = -1;
+    q.push(f);
+    destiny[f] = 0;
+    firstEl[f] = -1;
     while (!q.empty())
     {
         int u = q.front();
         q.pop();
         for (int v = 0; v < n; v++)
         {
-            if (a[u][v] && dist[v] == -1)
+            if (a[u][v] && destiny[v] == -1)
             {
                 q.push(v);
-                dist[v] = dist[u] + 1;
-                parent[v] = u;
+                destiny[v] = destiny[u] + 1;
+                firstEl[v] = u;
             }
         }
     }
 }
-void print(int finish,  int dist[], const int parent[])
+void out(int finish, int dist[], const int firstEl[])
 {
     cout << dist[finish] << endl;
-    int path[100], path_size = 0;
-    for (int v = finish; v != -1; v = parent[v])
+    int track[100], dest = 0;
+    for (int v = finish; v != -1; v = firstEl[v])
     {
-        path[path_size++] = v;
+        track[dest++] = v;
     }
-    for (int i = path_size - 1; i >= 0; i--)
+    for (int i = dest - 1; i >= 0; i--)
     {
-        cout << path[i] + 1 << " ";
+        cout << track[i] + 1 << " ";
     }
     cout << endl;
 }
 int main()
 {
-    int n, dist[100], parent[100];
-    int start, finish;
+    int n, dist[100], firstEl[100];
+    int f, l;
     int a[100][100];
     cin >> n;
     for (int i = 0; i < n; i++)
@@ -49,15 +49,15 @@ int main()
             cin >> a[i][j];
         }
     }
-    cin >> start >> finish;
-    start--, finish--;
+    cin >> f >> l;
+    f-=1, l-=1;
     for(int i = 0; i < n; i++)
     {
         dist[i] = -1;
-        parent[i] = -1;
+        firstEl[i] = -1;
     }
-    func(n, a, start, dist, parent);
-    print(finish, dist, parent);
-
+    func(n, a, f, dist, firstEl);
+    out(l, dist, firstEl);
     return 0;
 }
+

@@ -3,11 +3,11 @@
 using namespace std;
 int func(int fw, int n, int a[100][100])
 {
-    bool visited[100];
+    bool tr[100];
     int s = 0;
     queue<int> q;
     q.push(fw);
-    visited[fw] = true;
+    tr[fw] = true;
     s++;
     while (!q.empty())
     {
@@ -15,9 +15,9 @@ int func(int fw, int n, int a[100][100])
         q.pop();
         for (int v = 1; v <= n; v++)
         {
-            if (a[u][v] == 1 && !visited[v])
+            if (a[u][v] == 1 && !tr[v])
             {
-                visited[v] = true;
+                tr[v] = true;
                 q.push(v);
                 s++;
             }
@@ -25,7 +25,6 @@ int func(int fw, int n, int a[100][100])
     }
     return s;
 }
-
 int main()
 {
     int a[100][100];
